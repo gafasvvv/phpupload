@@ -32,6 +32,7 @@
         <p><?= $row['description']?></p>
     <?php       
         }
+        $PhotoCont ->outputCsv();
     ?>
 
 </body>

@@ -3,6 +3,7 @@
 
     class PhotoController {
 
+        // データベースに接続する処理
         protected function connectDb()
         {
             
@@ -16,6 +17,7 @@
             }
         }
 
+        // 画像を投稿する処理
         public function upload()
         {
             $ext = pathinfo($_FILES['upfile']['name']);
@@ -37,7 +39,7 @@
             if(isset($err_msg)){
                 print $err_msg;
             }
-
+            //DBに格納する処理
             $db = $this->connectDb();
             if(isset($_POST['description'])){
                 $stt = $db->prepare("INSERT INTO photo(photo_path, description)
@@ -48,6 +50,7 @@
             }
         }
 
+        //画像の情報を取得
         public function getAllPhotoList()
         {
             $db = $this->connectDb();
@@ -56,5 +59,18 @@
             //PDO::FETCH_ASSOC　連想配列形式でデータ取得
             $stt = $stt->fetchAll(PDO::FETCH_ASSOC);
             return $stt;
+        }
+    
+        //CSVへの出力処理
+        public function outputCsv()
+        {
+            $array = $this->getAllPhotoList();
+            $f = fopen("photo.csv", "w");
+            if(isset($f)){
+                foreach($array as $row){
+                    fputcsv($f, $row);
+                }
+            }
+            fclose($f);
         }
     }
