@@ -30,7 +30,7 @@
             } else {
                 $src = $_FILES['upfile']['tmp_name'];
                 $dest =$_FILES['upfile']['name'];
-                if(!move_uploaded_file($src,'../doc/'.$dest)){
+                if(!move_uploaded_file($src,'../public/doc/'.$dest)){
                     $err_msg = 'アップロードできませんでした！';
                 }
             }
@@ -46,5 +46,15 @@
                 $stt->bindValue(':description', $_POST['description']);
                 $stt->execute();
             }
+        }
+
+        public function getAllPhotoList()
+        {
+            $db = $this->connectDb();
+            $stt = $db->prepare("SELECT * FROM photo");
+            $stt->execute();
+            //PDO::FETCH_ASSOC　連想配列形式でデータ取得
+            $stt = $stt->fetchAll(PDO::FETCH_ASSOC);
+            return $stt;
         }
     }

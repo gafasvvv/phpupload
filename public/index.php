@@ -25,6 +25,13 @@
     </form>
 
     <h2>画像一覧</h2>
-
+    <?php
+        foreach($PhotoCont->getAllPhotoList() as $row){
+    ?>
+        <img src="<?= $row['photo_path']?>" alt="画像" width="200px" height="200px">
+        <p><?= $row['description']?></p>
+    <?php       
+        }
+    ?>
 
 </body>
